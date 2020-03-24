@@ -1,0 +1,32 @@
+@import '../../colors.css';
+
+.card-data {
+    margin: 20px;
+    padding: 10px;
+    display: flex;
+    flex-basis: 20%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--black-050);
+}
+
+.card-data-title {
+    margin-bottom: 15px;
+}
+
+.card-data-value {
+    font-size: 2rem;
+}
+
+@media only screen and (max-width: 600px) { 
+    .card-data {
+        margin: 5px;
+        padding: 5px;
+        flex-basis: 10%;
+    }
+
+    .card-data-value {
+        font-size: 1.3rem;
+    }
+}

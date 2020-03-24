@@ -1,17 +1,16 @@
 import React from 'react';
-import { SummaryResponseItem } from '../../types';
+import './card.css';
 
-type CardDataProps = SummaryResponseItem & { title: string, classProp?: string };
+interface CardDataProps { 
+    value: number,
+    title: string, 
+    classProp?: string 
+};
 
-const handleMoreValuesClick = (url: string): void => {
-    console.log(url)
-}
-
-const CardData: React.FC<CardDataProps> = ({ detail, value, title, classProp = null }) => (
+const CardData: React.FC<CardDataProps> = ({ value, title, classProp = null }) => (
     <div className={`card-data ${classProp ? classProp : ''}`}>
         <span className="card-data-title">{title}</span>
-        <p>{value}</p>
-        <span onClick={(event) => handleMoreValuesClick(detail) }> More values</span>
+        <span className="card-data-value">{value}</span>
     </div>
 );
 

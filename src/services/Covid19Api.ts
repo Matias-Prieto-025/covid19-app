@@ -1,6 +1,6 @@
 import axios, { AxiosResponse} from 'axios';
+import moment  from 'moment';
 import { SummaryResponse } from '../types';
-
 
 
 class Covid19Api {
@@ -11,11 +11,15 @@ class Covid19Api {
 
          try {
             const result: AxiosResponse = await axios.get(this.baseUrl);
-            const { confirmed, recovered, deaths } = result.data;
+            const { confirmed, recovered, deaths, lastUpdate } = result.data;
 
             const response = {
-                confirmed, recovered, deaths
+                confirmed: confirmed.value, 
+                recovered: recovered.value, 
+                deaths: deaths.value,
+                lastUpdate: moment(lastUpdate)
             }
+
             return response;
             
          } catch (error) {

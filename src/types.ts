@@ -1,10 +1,8 @@
-export interface SummaryResponse {
-    confirmed: SummaryResponseItem,
-    recovered: SummaryResponseItem,
-    deaths: SummaryResponseItem,
-}
+import moment from 'moment';
 
-export interface SummaryResponseItem {
-    value: number,
-    detail: string
+export interface SummaryResponse {
+    confirmed: number,
+    recovered: number,
+    deaths: number,
+    lastUpdate?: moment.Moment
 }
