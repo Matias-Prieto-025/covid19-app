@@ -1,0 +1,13 @@
+.table-100 {
+    width: 100%;
+}
+
+.table-100 > tbody > tr > td, th {
+    height: 40px;
+    vertical-align: middle;
+}
+
+.table-100 > tbody > tr > td {
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}

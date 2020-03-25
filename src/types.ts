@@ -12,3 +12,8 @@ export interface Country {
     iso2: string,
     iso3: string
 }
+
+export interface DailyReportItem extends SummaryResponse{
+    dayConfirmed: number
+    day: string
+}
