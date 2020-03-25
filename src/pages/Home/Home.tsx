@@ -13,7 +13,10 @@ const Home: React.FC = () => {
   useEffect(() => {
     covid19Api.summary()
         .then( result => summaryDispatch({ type: 'SET_SUMMARY', summary: result}))
-        .catch(error => summaryDispatch({ type: 'SET_ERROR', error: 'An error occurred while fetching data' }));
+        .catch(error => summaryDispatch({ type: 'SET_ERROR', error: 'An error occurred while fetching summary' }));
+    covid19Api.getCountries()
+      .then(result => console.log(result))
+      .catch(error => console.log(error))
   }, [])
 
   if (!sumamryState.summary) {

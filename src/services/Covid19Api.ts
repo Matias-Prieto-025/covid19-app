@@ -1,6 +1,6 @@
 import axios, { AxiosResponse} from 'axios';
 import moment  from 'moment';
-import { SummaryResponse } from '../types';
+import { SummaryResponse, Country } from '../types';
 
 
 class Covid19Api {
@@ -23,8 +23,21 @@ class Covid19Api {
             return response;
             
          } catch (error) {
-            throw new Error("request error")
+            throw new Error("get summary report error")
          }
+    }
+
+    public async getCountries(): Promise<Array<Country>> {
+
+        const url = '/countries';
+
+        try {
+            const result: AxiosResponse = await axios.get(`${this.baseUrl}${url}`);
+            return result.data.countries;
+
+        } catch (error) {
+            throw new Error("get countries error")
+        }
     }
 }
 
