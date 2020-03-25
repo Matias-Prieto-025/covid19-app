@@ -1,43 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import CardData from '../../components/CardData/CardData'; 
+import { summaryReducer, initialSummaryState } from '../../state/summary/reducer';
 import Covid19Api from '../../services/Covid19Api';
-import { SummaryResponse } from '../../types';
 
 const covid19Api = new Covid19Api();
-const initialSummaryResponse: SummaryResponse = {
-  confirmed: 0,
-  recovered: 0,
-  deaths: 0,
-  lastUpdate: undefined
-}
+
 
 const Home: React.FC = () => {
 
-  const [ summaryData, setSummaryData] = useState<SummaryResponse>(initialSummaryResponse);
-  const [error, setError] = useState<string | null>(null);
+  const [sumamryState, summaryDispatch] = useReducer(summaryReducer, initialSummaryState)
 
   useEffect(() => {
     covid19Api.summary()
         .then( result => {
             console.log(result)
-            setSummaryData(result);
+            summaryDispatch({ type: 'SET_SUMMARY', summary: result})
         })
-        .catch(error => setError('An error occurred while fetching data'));
+        .catch(error => summaryDispatch({ type: 'SET_ERROR', error: 'An error occurred while fetching data' }));
   }, [])
 
-  if (error) {
-    return <p>{ error }</p>
-  }
-
-  if (!summaryData) {
+  if (!sumamryState.summary) {
     return null;
   }
 
+  const { summary, error } = sumamryState;
+
+  if (error) {
+    return <p>{ sumamryState.error }</p>
+  }
+
+
   return (
     <div className="flex flex-center-content">
-      <CardData value={summaryData.confirmed} title={'Confimados'}/>
-      <CardData value={summaryData.recovered} title={'Recuperados'}/>
-      <CardData value={summaryData.deaths} title={'Fallecidos'}/>
+      <CardData value={summary.confirmed} title={'Confimados'}/>
+      <CardData value={summary.recovered} title={'Recuperados'}/>
+      <CardData value={summary.deaths} title={'Fallecidos'}/>
     </div>
   );
 } 
