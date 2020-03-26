@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
+import { Row } from '../../layout-components';
 import CardData from '../../components/CardData/CardData'; 
 import DailyReport from '../../components/DailyReport/DailyReport';
 import { summaryReducer, initialSummaryState } from '../../state/summary/reducer';
@@ -31,13 +32,24 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <div className="flex flex-center-content">
-        <CardData value={confirmed} title={'Confirmed'}/>
-        <CardData value={recovered} title={'Recovered'} rate={calculateRate(confirmed, recovered)}/>
-        <CardData value={deaths} title={'Deaths'} rate={calculateRate(confirmed, deaths)}/>
-      </div>
-      <hr/>
-      <div className="flex flex-center-content">
+      <Row className="mobile-column">
+        <CardData 
+          value={confirmed} 
+          title={'Confirmed'}
+          className="background-yellow"/>
+        <CardData 
+          value={recovered} 
+          title={'Recovered'} 
+          rate={calculateRate(confirmed, recovered)}
+          className="background-green"/>
+        <CardData 
+          value={deaths} 
+          title={'Deaths'} 
+          rate={calculateRate(confirmed, deaths)}
+          className="background-red"/>
+      </Row>
+     
+      <div className="flex-row flex-center-content">
         <DailyReport />
       </div>
     </>

@@ -1,32 +1,47 @@
 @import '../../colors.css';
 
-.card-data {
-    margin: 20px;
-    padding: 10px;
+.card {
+    margin: 10px;
+    padding: 10px 50px;
     display: flex;
-    flex-basis: 20%;
+    flex-basis: 100%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: var(--black-050);
 }
 
-.card-data-title {
+.card-header {
+    width: 100%;
+    justify-content: space-evenly;
+    margin-top: 20px;
+}
+
+.card-title {
     margin-bottom: 15px;
 }
 
-.card-data-value {
+.card-value {
     font-size: 2rem;
 }
 
+
+
 @media only screen and (max-width: 600px) { 
-    .card-data {
+    .card {
         margin: 5px;
-        padding: 5px;
         flex-basis: 10%;
+        padding: 15px 50px;
+
     }
 
-    .card-data-value {
+    .card-header {
+        width: 100%;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    .card-value {
         font-size: 1.3rem;
     }
 }

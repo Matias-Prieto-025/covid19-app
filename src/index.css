@@ -3,11 +3,16 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
+  margin: 0;
 }
 
 .flex {
   display: flex;
   flex-wrap: wrap;
+}
+
+.flex-direction-column {
+  flex-direction: column;
 }
 
 .flex-center-content {
@@ -16,4 +21,23 @@ body {
 
 .flex-space-around {
   justify-content: space-around;
+}
+
+/* Backgrounds */
+.background-yellow {
+  background-color: var(--yellow) !important;
+}
+
+.background-green {
+  background-color: var(--green) !important;
+}
+
+.background-red {
+  background-color: var(--red) !important;
+}
+
+@media only screen and (max-width: 600px) { 
+  .mobile-column {
+    flex-direction: column;
+  }
 }
