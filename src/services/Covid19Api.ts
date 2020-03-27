@@ -1,30 +1,50 @@
 import axios, { AxiosResponse} from 'axios';
 import moment  from 'moment';
-import { SummaryResponse, Country, DailyReportItem } from '../types';
-
+import { SummaryResponse, Country, CountryReportItem,DailyReportItem } from '../types';
 
 class Covid19Api {
 
     private baseUrl = "https://covid19.mathdro.id/api"
 
-    public async summary(): Promise<SummaryResponse> {
+    private formatReportData(response: AxiosResponse): SummaryResponse {
+        const { confirmed, recovered, deaths, lastUpdate } = response.data;
+
+        return{
+            confirmed: confirmed.value, 
+            recovered: recovered.value, 
+            deaths: deaths.value,
+            lastUpdate: moment(lastUpdate)
+        }
+
+    }
+
+    private async globalSummary(): Promise<SummaryResponse> {
 
          try {
             const response: AxiosResponse = await axios.get(this.baseUrl);
-            const { confirmed, recovered, deaths, lastUpdate } = response.data;
-
-            const result = {
-                confirmed: confirmed.value, 
-                recovered: recovered.value, 
-                deaths: deaths.value,
-                lastUpdate: moment(lastUpdate)
-            }
-
-            return result;
-            
+            return this.formatReportData(response);
          } catch (error) {
             throw new Error("get summary report error")
          }
+    }
+
+    private async getCountrySummary(countryCode: string): Promise<SummaryResponse> {
+
+        const url = `${this.baseUrl}/countries/${countryCode}`;
+        try {
+            const response: AxiosResponse = await axios.get(url)
+            return this.formatReportData(response);
+        } catch (error) {
+            throw new Error("get countries report error")
+        }
+    }
+
+    public async summary(countryCode?: string): Promise<SummaryResponse> {
+
+        if (!countryCode) {
+            return await this.globalSummary();
+        }
+        return await this.getCountrySummary(countryCode);
     }
 
     public async getCountries(): Promise<Array<Country>> {

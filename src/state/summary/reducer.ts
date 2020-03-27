@@ -1,6 +1,6 @@
 import { SummaryResponse } from '../../types';
 
-type State = { summary: SummaryResponse, error: string };
+export type State = { summary: SummaryResponse, error: string };
 
 type SetSummary = {
     readonly type: 'SET_SUMMARY',
@@ -12,7 +12,7 @@ type SetError = {
     readonly error: string
 }
 
-type Action = SetSummary | SetError;
+export type Action = SetSummary | SetError;
  
 
 export const initialSummaryState: State = {

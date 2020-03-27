@@ -1,9 +1,8 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useContext } from 'react';
 import { Row } from '../../layout-components';
 import CardData from '../../components/CardData/CardData'; 
 import DailyReport from '../../components/DailyReport/DailyReport';
-import { summaryReducer, initialSummaryState } from '../../state/summary/reducer';
-import Covid19Api from '../../services/Covid19Api';
+import { SummaryContexState } from '../../App';
 
 const calculateRate = (confirmed: number, value: number): string => { 
   return (confirmed > 0 && (value*100/confirmed).toFixed(2)) || '0'
@@ -11,19 +10,13 @@ const calculateRate = (confirmed: number, value: number): string => {
 
 const Home: React.FC = () => {
 
-  const [sumamryState, summaryDispatch] = useReducer(summaryReducer, initialSummaryState)
+  const summaryContextSatet = useContext(SummaryContexState);
 
-  useEffect(() => {   
-    Covid19Api.summary()
-        .then( result => summaryDispatch({ type: 'SET_SUMMARY', summary: result}))
-        .catch(error => summaryDispatch({ type: 'SET_ERROR', error: 'An error occurred while fetching summary' }));
-  }, [])
-
-  if (!sumamryState.summary) {
+  if (!summaryContextSatet.summary) {
     return null;
   }
 
-  const { summary: {confirmed, recovered, deaths}, error } = sumamryState;
+  const { summary: {confirmed, recovered, deaths}, error } = summaryContextSatet;
 
   if (error) {
     return <p>{ error }</p>

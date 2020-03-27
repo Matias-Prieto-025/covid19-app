@@ -13,6 +13,14 @@ export interface Country {
     iso3: string
 }
 
+export interface CountryReportItem extends SummaryResponse {
+    region: string,
+    state: string,
+    country: string,
+    lat: number,
+    long: number
+}
+
 export interface DailyReportItem extends SummaryResponse{
     dayConfirmed: number
     day: string
