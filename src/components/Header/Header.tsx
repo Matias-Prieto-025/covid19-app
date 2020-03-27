@@ -23,7 +23,7 @@ const Header: React.FC = () => {
         covid19Api.summary(countryCode)
             .then(response => summaryDispatch({ type: 'SET_SUMMARY', summary: response}))
             .catch(error => console.log(error))
-            .finally(() => appDispatch({ type: 'SET_LOADING', isLoading: false}));
+            .finally(() => setTimeout( () => {appDispatch({ type: 'SET_LOADING', isLoading: false})}, 1000 ));
     }
 
     return (
