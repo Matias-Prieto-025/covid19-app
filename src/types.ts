@@ -1,5 +1,11 @@
 import moment from 'moment';
 
+export interface AppState {
+    isLoading: boolean,
+    hasError: boolean,
+    errorMessage: string
+}
+
 export interface SummaryResponse {
     confirmed: number,
     recovered: number,

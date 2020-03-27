@@ -1,6 +1,6 @@
 import { SummaryResponse } from '../../types';
 
-export type State = { summary: SummaryResponse, error: string };
+export type StateSummary = { summary: SummaryResponse, error: string };
 
 type SetSummary = {
     readonly type: 'SET_SUMMARY',
@@ -12,10 +12,10 @@ type SetError = {
     readonly error: string
 }
 
-export type Action = SetSummary | SetError;
+export type ActionSummary = SetSummary | SetError;
  
 
-export const initialSummaryState: State = {
+export const initialSummaryState: StateSummary = {
     summary: {
         confirmed: 0,
         recovered: 0,
@@ -25,7 +25,7 @@ export const initialSummaryState: State = {
     error:''
 }
 
-export const summaryReducer = (state: State, action: Action): State => {
+export const summaryReducer = (state: StateSummary, action: ActionSummary): StateSummary => {
     switch(action.type) {
         case 'SET_SUMMARY':
             return { ...state, summary: action.summary}
