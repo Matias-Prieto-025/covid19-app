@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useContext } from 'react';
-import { SummaryContexDispatch } from '../../App';
+import { AppContextDispatch ,SummaryContexDispatch } from '../../App';
 import covid19Api from '../../services/Covid19Api';
 import { countriesReducer, initialCountriesState } from '../../state/countries/reducer';
 import './header.css';
@@ -7,6 +7,7 @@ import './header.css';
 const Header: React.FC = () => {
 
     const summaryDispatch = useContext(SummaryContexDispatch);
+    const appDispatch = useContext(AppContextDispatch);
 
     const [countriesState, countriesDispatch] = useReducer(countriesReducer, initialCountriesState);
 
@@ -17,11 +18,12 @@ const Header: React.FC = () => {
     }, []);
 
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        debugger
+        appDispatch({ type: 'SET_LOADING', isLoading: true});
         const countryCode = event.target.value;
         covid19Api.summary(countryCode)
             .then(response => summaryDispatch({ type: 'SET_SUMMARY', summary: response}))
-            .catch(error => console.log(error));
+            .catch(error => console.log(error))
+            .finally(() => appDispatch({ type: 'SET_LOADING', isLoading: false}));
     }
 
     return (
