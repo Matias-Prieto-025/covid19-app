@@ -1,6 +1,6 @@
 import React, { useReducer, useEffect } from 'react';
 import { summaryReducer, initialSummaryState, ActionSummary, StateSummary} from './state/summary/reducer';
-import { appReducer, initialAppState, ActionApp, StateApp} from './state/app/reducer';
+import { appReducer, initialAppState, ActionApp} from './state/app/reducer';
 import Covid19Api from './services/Covid19Api';
 import { Container } from './layout-components';
 import LoadingScreen from './components/LoadingScreen/LoadingScreen'; 
@@ -25,7 +25,7 @@ function App() {
           hasError: true,
           errorMessage: error 
         }}))
-      .finally(() => { debugger; appDispatch({ type: 'SET_LOADING', isLoading: false})});
+      .finally(() => appDispatch({ type: 'SET_LOADING', isLoading: false}));
     
   }, []);
   
