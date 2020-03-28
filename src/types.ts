@@ -13,6 +13,11 @@ export interface SummaryResponse {
     lastUpdate?: moment.Moment
 }
 
+export interface CountriesSummaryResponse extends SummaryResponse {
+    iso3: string,
+    active: number
+}
+
 export interface Country {
     name: string,
     iso2: string,

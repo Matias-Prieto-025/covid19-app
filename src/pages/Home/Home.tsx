@@ -1,7 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
+import ReactTooltip from "react-tooltip";
 import { Row } from '../../layout-components';
 import CardData from '../../components/CardData/CardData'; 
-import DailyReport from '../../components/DailyReport/DailyReport';
+import MapChart, { HoverMapValue } from '../../components/MapChart/MapChart';
 import { SummaryContexState } from '../../App';
 
 const calculateRate = (confirmed: number, value: number): string => { 
@@ -10,6 +11,7 @@ const calculateRate = (confirmed: number, value: number): string => {
 
 const Home: React.FC = () => {
 
+  const [ tooltipState, setTooltipState] = useState<string>('')
   const summaryContextSatet = useContext(SummaryContexState);
 
   if (!summaryContextSatet.summary) {
@@ -22,6 +24,10 @@ const Home: React.FC = () => {
     return <p>{ error }</p>
   }
 
+  const handleMapMouseOver = (mapValues: HoverMapValue | undefined): void => {
+    const tootltip = !mapValues ? '' : `Country: ${mapValues.name} <br /> Population: ${mapValues.population.toLocaleString()}`;
+    setTooltipState(tootltip);
+  }
 
   return (
     <>
@@ -42,8 +48,9 @@ const Home: React.FC = () => {
           className="background-red"/>
       </Row>
      
-      <div className="flex-row flex-center-content">
-        <DailyReport />
+      <div>
+        <MapChart setTooltipContent={handleMapMouseOver}/>
+        <ReactTooltip multiline={true} html={true}>{tooltipState}</ReactTooltip>
       </div>
     </>
   );
