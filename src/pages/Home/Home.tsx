@@ -37,7 +37,6 @@ const Home: React.FC = () => {
   const handleMapMouseOver = (mapValues: HoverMapValue | undefined): void => {
 
     let tooltipContent: string = '';
-debugger
     if (!mapValues) {
       tooltipContent = '';
       setDisplaySummary(summaryContextSatet.summary);

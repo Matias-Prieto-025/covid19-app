@@ -55,7 +55,7 @@ function App() {
       .finally(() => appDispatch({ type: 'SET_LOADING', isLoading: false}));
 
   }, []);
-console.log('render app')
+
   return (
     <div className="App">
 
