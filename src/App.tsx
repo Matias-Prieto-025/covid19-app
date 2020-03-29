@@ -8,6 +8,7 @@ import { Container } from './layout-components';
 import LoadingScreen from './components/LoadingScreen/LoadingScreen'; 
 import Header from './components/Header/Header';
 import Home from './pages/Home/Home';
+import Footer from './components/Footer/Footer';
 
 //export const AppContextState = React.createContext<StateApp>(initialAppState);
 export const AppContextDispatch = React.createContext<React.Dispatch<ActionApp>>(() => initialAppState);
@@ -69,6 +70,7 @@ function App() {
                 <Container>
                   <Home />
                 </Container>
+                <Footer />
 
               </CountriesContextState.Provider>
           </SummaryContexState.Provider>

@@ -11,7 +11,16 @@
 
 .brand {
     margin: 0;
+    display: flex;
+    width: 140px;
+    justify-content: space-between;
 }
+
+.brand > h3 {
+    margin: 0;
+}
+
+
 .width-300 {
     width: 300px;
 }

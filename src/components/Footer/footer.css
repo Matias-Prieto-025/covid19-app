@@ -1,0 +1,13 @@
+.footer {
+    margin-top: 10px;
+    border-top: 1px solid #ddd;
+    height: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 25px;
+}
+
+.footer > span, a {
+    color: #ccc;
+}

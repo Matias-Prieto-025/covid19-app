@@ -4,4 +4,7 @@
 
 #map-container {
     margin-top: 1rem;
+    display: block;
+    width: 100%;
+    flex: 1;
 }
