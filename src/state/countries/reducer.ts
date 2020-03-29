@@ -1,8 +1,15 @@
-import { Country } from '../../types';
+import { Country, CountriesSummary, Summary } from '../../types';
 
 // Define initial State
-type State = Array<Country>;
-export const initialCountriesState: State = [];
+export type StateCountries = {
+    countries: Array<Country>,
+    countriesSummaries: Map<string,Summary>;
+}
+
+export const initialCountriesState: StateCountries = {
+    countries: [],
+    countriesSummaries: new Map()
+}
 
 // Define Action types
 type SetCountries = {
@@ -10,14 +17,21 @@ type SetCountries = {
     readonly countries: Array<Country>
 }
 
-type Action = SetCountries;
+type SetCountriesSummary = {
+    readonly type: 'SET_SUMMARIES',
+    readonly countriesSummary: Map<string, Summary>
+}
+
+type Action = SetCountries | SetCountriesSummary;
 
 
-export const countriesReducer = (state: State, action: Action): State => {
+export const countriesReducer = (state: StateCountries, action: Action): StateCountries => {
 
     switch(action.type) {
         case 'SET_COUNTRIES':
-            return [...state, ...action.countries];
+            return {...state, countries: action.countries};
+        case 'SET_SUMMARIES':
+            return{...state, countriesSummaries: action.countriesSummary}
         default:
             return state;
     }

@@ -6,14 +6,14 @@ export interface AppState {
     errorMessage: string
 }
 
-export interface SummaryResponse {
+export interface Summary {
     confirmed: number,
     recovered: number,
     deaths: number,
     lastUpdate?: moment.Moment
 }
 
-export interface CountriesSummaryResponse extends SummaryResponse {
+export interface CountriesSummary extends Summary {
     iso3: string,
     active: number
 }
@@ -24,7 +24,7 @@ export interface Country {
     iso3: string
 }
 
-export interface CountryReportItem extends SummaryResponse {
+export interface CountryReportItem extends Summary {
     region: string,
     state: string,
     country: string,
@@ -32,7 +32,7 @@ export interface CountryReportItem extends SummaryResponse {
     long: number
 }
 
-export interface DailyReportItem extends SummaryResponse{
+export interface DailyReportItem extends Summary{
     dayConfirmed: number
     day: string
 }

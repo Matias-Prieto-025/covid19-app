@@ -1,10 +1,10 @@
-import { SummaryResponse } from '../../types';
+import { Summary } from '../../types';
 
-export type StateSummary = { summary: SummaryResponse, error: string };
+export type StateSummary = { summary: Summary, error: string };
 
 type SetSummary = {
     readonly type: 'SET_SUMMARY',
-    readonly summary: SummaryResponse
+    readonly summary: Summary
 }
 
 type SetError = {

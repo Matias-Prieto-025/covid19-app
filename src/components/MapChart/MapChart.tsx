@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { ZoomableGroup, ComposableMap, Geographies, Geography } from "react-simple-maps";
+import { ZoomableGroup, ComposableMap, Geographies, Geography, Sphere, Graticule } from "react-simple-maps";
 import './mapChart.css';
 
 export interface HoverMapValue {
@@ -12,8 +12,10 @@ const geoUrl = "https://raw.githubusercontent.com/zcreativelabs/react-simple-map
 
 const MapChart: React.FC<any>= ({ setTooltipContent }) => {
     return (
-        <>
-            <ComposableMap data-tip="" height={300} projectionConfig={{ scale: 120 }}>
+        <div>
+            <ComposableMap data-tip="" height={330} projectionConfig={{ scale: 140 }}>
+                <Sphere stroke="#E4E5E6" strokeWidth={0.5} id="rsm-sphere" fill="transparent"/>
+                <Graticule stroke="#E4E5E6" strokeWidth={0.5} />
                 <ZoomableGroup>
                     <Geographies geography={geoUrl}>
                         {({ geographies }) =>
@@ -22,11 +24,11 @@ const MapChart: React.FC<any>= ({ setTooltipContent }) => {
                                     key={geo.rsmKey}
                                     geography={geo}
                                     onMouseEnter={() => {
-                                        const { NAME, POP_EST, ISO_3 } = geo.properties;
+                                        const { NAME, POP_EST, ISO_A3 } = geo.properties;
                                         const hoverMapValue: HoverMapValue = {
                                             population: POP_EST,
                                             name: NAME,
-                                            iso3: ISO_3
+                                            iso3: ISO_A3
                                         }
                                         setTooltipContent(hoverMapValue);
                                     }}
@@ -53,7 +55,7 @@ const MapChart: React.FC<any>= ({ setTooltipContent }) => {
                     </Geographies>
                 </ZoomableGroup>
             </ComposableMap>
-        </>
+        </div>
     );
 }
 

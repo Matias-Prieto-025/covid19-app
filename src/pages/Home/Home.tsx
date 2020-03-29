@@ -1,10 +1,18 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import ReactTooltip from "react-tooltip";
+import { Summary } from '../../types';
 import { Row } from '../../layout-components';
 import CardData from '../../components/CardData/CardData'; 
 import MapChart, { HoverMapValue } from '../../components/MapChart/MapChart';
-import { SummaryContexState } from '../../App';
+import { CountriesContextState, SummaryContexState } from '../../App';
+import './home.css';
 
+
+const initialDisplaySummary: Summary = {
+  confirmed: 0,
+  recovered: 0,
+  deaths: 0
+}
 const calculateRate = (confirmed: number, value: number): string => { 
   return (confirmed > 0 && (value*100/confirmed).toFixed(2)) || '0'
 }
@@ -12,25 +20,52 @@ const calculateRate = (confirmed: number, value: number): string => {
 const Home: React.FC = () => {
 
   const [ tooltipState, setTooltipState] = useState<string>('')
+  const [selectedCountry, setSelectedCountry] = useState<string>('The world');
+  const [ displaySummary, setDisplaySummary] = useState<Summary>(initialDisplaySummary);
+
   const summaryContextSatet = useContext(SummaryContexState);
+  const countriesContextState = useContext(CountriesContextState);
+
+  useEffect(() => {
+    setDisplaySummary(summaryContextSatet.summary);
+  }, [summaryContextSatet.summary])
 
   if (!summaryContextSatet.summary) {
     return null;
   }
 
-  const { summary: {confirmed, recovered, deaths}, error } = summaryContextSatet;
-
-  if (error) {
-    return <p>{ error }</p>
-  }
-
   const handleMapMouseOver = (mapValues: HoverMapValue | undefined): void => {
-    const tootltip = !mapValues ? '' : `Country: ${mapValues.name} <br /> Population: ${mapValues.population.toLocaleString()}`;
-    setTooltipState(tootltip);
+
+    let tooltipContent: string = '';
+debugger
+    if (!mapValues) {
+      tooltipContent = '';
+      setDisplaySummary(summaryContextSatet.summary);
+      setSelectedCountry('The world')
+
+    } else {
+      tooltipContent = `Country: ${mapValues.name} <br /> Population: ${mapValues.population.toLocaleString()}`;
+
+      const { countriesSummaries } = countriesContextState;
+      const selectedCountrySummary = countriesSummaries.get(mapValues.iso3) || initialDisplaySummary;
+
+      const newSummary: Summary = {
+        confirmed: selectedCountrySummary.confirmed,
+        recovered: selectedCountrySummary.recovered,
+        deaths: selectedCountrySummary.deaths
+      }
+      setDisplaySummary(newSummary);
+      setSelectedCountry(mapValues.name);
+    }
+     
+    setTooltipState(tooltipContent);
   }
+
+  const { confirmed, recovered, deaths } = displaySummary;
 
   return (
     <>
+      <h4 className="title">{selectedCountry}</h4>
       <Row className="mobile-column">
         <CardData 
           value={confirmed} 
@@ -48,8 +83,8 @@ const Home: React.FC = () => {
           className="background-red"/>
       </Row>
      
-      <div>
-        <MapChart setTooltipContent={handleMapMouseOver}/>
+      <div id="map-container">
+        <MapChart setTooltipContent={handleMapMouseOver} />
         <ReactTooltip multiline={true} html={true}>{tooltipState}</ReactTooltip>
       </div>
     </>

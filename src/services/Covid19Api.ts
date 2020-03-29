@@ -1,12 +1,12 @@
 import axios, { AxiosResponse} from 'axios';
 import moment  from 'moment';
-import { SummaryResponse, CountriesSummaryResponse, Country, DailyReportItem } from '../types';
+import { Summary, CountriesSummary, Country, DailyReportItem } from '../types';
 
 class Covid19Api {
 
     private baseUrl = "https://covid19.mathdro.id/api"
 
-    private formatReportData(response: AxiosResponse): SummaryResponse {
+    private formatReportData(response: AxiosResponse): Summary {
         const { confirmed, recovered, deaths, lastUpdate } = response.data;
 
         return{
@@ -17,28 +17,7 @@ class Covid19Api {
         }
     }
 
-    private async globalSummary(): Promise<SummaryResponse> {
-
-         try {
-            const response: AxiosResponse = await axios.get(this.baseUrl);
-            return this.formatReportData(response);
-         } catch (error) {
-            throw new Error("get summary report error")
-         }
-    }
-
-    private async getCountrySummary(countryCode: string): Promise<SummaryResponse> {
-
-        const url = `${this.baseUrl}/countries/${countryCode}`;
-        try {
-            const response: AxiosResponse = await axios.get(url)
-            return this.formatReportData(response);
-        } catch (error) {
-            throw new Error("get countries report error")
-        }
-    }
-
-    private parseCountriesSummaryData(data: Array<CountriesSummaryResponse>): Map<string,CountriesSummaryResponse> {
+    private formatCountriesSummaryData(data: Array<CountriesSummary>): Map<string,Summary> {
 
         const result = new Map();;
         
@@ -50,7 +29,6 @@ class Covid19Api {
                 return;
             }
 
-
             if (!result.has(iso3)) {
                 result.set(iso3, { iso3, confirmed, recovered, deaths, active });
             } else {
@@ -58,7 +36,6 @@ class Covid19Api {
                 actualValue.confirmed += confirmed;
                 actualValue.recovered += recovered;
                 actualValue.deaths += deaths;
-                actualValue.active += active;
                 result.set(iso3, actualValue);
             }
         })
@@ -66,28 +43,14 @@ class Covid19Api {
         return result;
     }
 
-    private  async getCountriesSumary(): Promise<Map<string,CountriesSummaryResponse>> {
+    public async globalSummary(): Promise<Summary> {
 
-        const url = `${this.baseUrl}/confirmed`;
-
-        try {
-            const response: AxiosResponse = await axios.get(url);
-            const result = this.parseCountriesSummaryData(response.data);
-            console.log( result)
-            return result;
-        } catch (error) {
-            throw new Error ('An error occurred while get summary by country')
-        }
-
-    }
-
-    public async summary(countryCode?: string): Promise<SummaryResponse> {
-
-        this.getCountriesSumary()
-        if (!countryCode) {
-            return await this.globalSummary();
-        }
-        return await this.getCountrySummary(countryCode);
+         try {
+            const response: AxiosResponse = await axios.get(this.baseUrl);
+            return this.formatReportData(response);
+         } catch (error) {
+            throw new Error("get summary report error")
+         }
     }
 
     public async getCountries(): Promise<Array<Country>> {
@@ -96,12 +59,50 @@ class Covid19Api {
 
         try {
             const response: AxiosResponse = await axios.get(`${this.baseUrl}${url}`);
-            return response.data.countries.filter((country: Country) => country.iso3);
-
+            const countries: Array<Country> = response.data.countries.filter((country: Country) => country.iso3);
+            return countries;
         } catch (error) {
             throw new Error("get countries error")
         }
     }
+
+    public async getCountriesSummary(): Promise<Map<string,Summary>> {
+
+        const url = `${this.baseUrl}/confirmed`;
+
+        try {
+            const response: AxiosResponse = await axios.get(url);
+            const result = this.formatCountriesSummaryData(response.data);
+            return result;
+        } catch (error) {
+            throw new Error ('An error occurred while get summary by country')
+        }
+    }
+
+/*     private async getCountrySummary(countryCode: string): Promise<Summary> {
+
+        const url = `${this.baseUrl}/countries/${countryCode}`;
+        try {
+            const response: AxiosResponse = await axios.get(url)
+            return this.formatReportData(response);
+        } catch (error) {
+            throw new Error("get countries report error")
+        }
+    } */
+
+
+
+
+
+/*     public async summary(countryCode?: string): Promise<Summary> {
+
+        if (!countryCode) {
+            return await this.globalSummary();
+        }
+        return await this.getCountrySummary(countryCode);
+    } */
+
+
 
     public async getDailyReport(): Promise<Array<DailyReportItem>> {
 
