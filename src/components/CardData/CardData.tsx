@@ -11,9 +11,9 @@ interface CardDataProps {
 const CardData: React.FC<CardDataProps> = ({ value, title, className = null, rate = null }) => (
     <div className={`card ${className ? className : ''}`}>
         <span className="card-value">{value.toLocaleString()}</span>
-        <div className="flex card-header">
-            <b>{title}</b>
-            {rate && <b>&nbsp;{rate}%</b>}
+        <div className="flex card-title">
+            <span>{title}</span>
+            {rate && <span className={"card-rate-value"}>&nbsp;{rate}%</span>}
         </div>
     </div>
 );

@@ -1,4 +1,4 @@
-import { Country, CountriesSummary, Summary } from '../../types';
+import { Country, Summary } from '../../types';
 
 // Define initial State
 export type StateCountries = {

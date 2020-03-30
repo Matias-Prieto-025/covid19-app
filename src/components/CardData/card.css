@@ -11,14 +11,10 @@
     background-color: var(--black-050);
 }
 
-.card-header {
+.card-title {
     width: 100%;
     justify-content: space-evenly;
     margin-top: 10px;
-}
-
-.card-title {
-    margin-bottom: 15px;
 }
 
 .card-value {
@@ -31,17 +27,30 @@
     .card {
         margin: 5px;
         flex-basis: 10%;
-        padding: 15px 50px;
-
+        padding: 10px;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        align-items: center;
     }
 
-    .card-header {
+    .card-title {
         width: 100%;
-        justify-content: center;
-        margin-top: 10px;
+        justify-content: space-between;
+        margin-top: 0px;
+        font-weight: normal;
+        flex: 1;
     }
 
     .card-value {
-        font-size: 1.3rem;
+        display: flex;
+        font-size: 1rem;
+        font-weight: normal;
+        flex: 1;
+        justify-content: flex-end;
+    }
+
+    .card-rate-value {
+        font-size: 0.8rem;
+        color: #333;
     }
 }
