@@ -2,8 +2,9 @@ import React, { useReducer, useEffect } from 'react';
 import { countriesReducer, initialCountriesState, StateCountries } from './state/countries/reducer';
 import { summaryReducer, initialSummaryState, StateSummary} from './state/summary/reducer';
 import { appReducer, initialAppState, ActionApp} from './state/app/reducer';
-import { Summary, Country } from './types';
+import { Summary, Country, CountrySummary } from './types';
 import covid19Api from './services/Covid19Api';
+import { generateCountriesArray } from './utils/generateCountriesArray';
 import { Container } from './layout-components';
 import LoadingScreen from './components/LoadingScreen/LoadingScreen'; 
 import Header from './components/Header/Header';
@@ -18,15 +19,15 @@ export const SummaryContexState = React.createContext<StateSummary>(initialSumma
 interface ResponseInitialData {
   worldSummary: Summary,
   countries: Array<Country>,
-  countriesSummary: Map<string, Summary>
+  countriesSummary: Array<CountrySummary>
 }
 
 const loadInitialData = async (): Promise<ResponseInitialData> => {
   
    try {
-    const worldSummary = await covid19Api.globalSummary();
-    const countries = await covid19Api.getCountries();
+    const worldSummary = await covid19Api.getGlobalSummary();
     const countriesSummary = await covid19Api.getCountriesSummary();
+    const countries = generateCountriesArray(countriesSummary);
     return { worldSummary, countries, countriesSummary };
      
    } catch (error) {
@@ -46,8 +47,8 @@ function App() {
       .then( response => {
         const { worldSummary, countries, countriesSummary} = response;
         summaryDispatch({ type: 'SET_SUMMARY', summary: worldSummary});
-        countriesDispatch({ type: 'SET_COUNTRIES', countries})
         countriesDispatch({ type: 'SET_SUMMARIES', countriesSummary});
+        countriesDispatch({ type: 'SET_COUNTRIES', countries})
       })
       .catch(error => appDispatch({ type: 'SET_ERROR', error: {
         hasError: true,

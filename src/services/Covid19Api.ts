@@ -1,162 +1,59 @@
-import axios, { AxiosResponse} from 'axios';
-import moment  from 'moment';
-import { Summary, CountriesSummary, Country, DailyReportItem } from '../types';
+import axios from 'axios';
+import moment from 'moment';
+import { CountrySummary, Summary } from '../types';
 
 class Covid19Api {
 
-    private baseUrl = "https://covid19.mathdro.id/api"
+    private baseUrl: string;
 
-    private formatReportData(response: AxiosResponse): Summary {
-        const { confirmed, recovered, deaths, lastUpdate } = response.data;
-
-        return{
-            confirmed: confirmed.value, 
-            recovered: recovered.value, 
-            deaths: deaths.value,
-            lastUpdate: moment(lastUpdate)
-        }
+    constructor() {
+        this.baseUrl = "https://corona.lmao.ninja";
     }
 
-    private formatCountriesSummaryData(data: Array<CountriesSummary>): Map<string,Summary> {
+    private _formatDate(momentDate: moment.Moment): string {
+        return moment(momentDate).format('MM-DD-YYYY HH:mm');
+    }
 
-        const result = new Map();;
+    public async getGlobalSummary(): Promise<Summary> {
+
+        const url = `${this.baseUrl}/all`;
         
-        data.forEach(item => {
-
-            const { iso3, confirmed, recovered, deaths, active } = item;
-
-            if (!iso3) {
-                return;
-            }
-
-            if (!result.has(iso3)) {
-                result.set(iso3, { iso3, confirmed, recovered, deaths, active });
-            } else {
-                const actualValue = result.get(iso3);
-                actualValue.confirmed += confirmed;
-                actualValue.recovered += recovered;
-                actualValue.deaths += deaths;
-                result.set(iso3, actualValue);
-            }
-        })
-
-        return result;
-    }
-
-    private fixCountriesSummaryRecoveredData(result: Map<string, Summary>, recoveredData: Array<CountriesSummary>): Map<string, Summary> {
-        //reduce data by country
-        let reducedArray = recoveredData.reduce((accumulator: Array<number>, current: any) => {
-            if (!accumulator[current.iso3]) {
-                accumulator[current.iso3] = current.recovered;
-                return accumulator;
-            }
-            accumulator[current.iso3] += current.recovered
-            return accumulator;
-        }, [])
-
-        console.log(reducedArray)
-
-        for (let key in reducedArray) {
-
-            let actualValue = result.get(key.toString());
-            if (actualValue) {
-                actualValue.recovered += reducedArray[key];
-                result.set(key.toString(), actualValue);
-            }
-
-        }
-
-        return result;
-    }
-
-    public async globalSummary(): Promise<Summary> {
-
-         try {
-            const response: AxiosResponse = await axios.get(this.baseUrl);
-            return this.formatReportData(response);
-         } catch (error) {
-            throw new Error("get summary report error")
-         }
-    }
-
-    public async getCountries(): Promise<Array<Country>> {
-
-        const url = '/countries';
-
         try {
-            const response: AxiosResponse = await axios.get(`${this.baseUrl}${url}`);
-            const countries: Array<Country> = response.data.countries.filter((country: Country) => country.iso3);
-            return countries;
+            const axiosResponse = await axios.get(url);
+            const summary: Summary = {
+                confirmed: axiosResponse.data.cases,
+                recovered: axiosResponse.data.recovered,
+                deaths: axiosResponse.data.deaths,
+                lastUpdate: this._formatDate(axiosResponse.data.updated)
+            }
+            return summary;
         } catch (error) {
-            throw new Error("get countries error")
+            throw new Error("An error has occurred while fetching global summary.");
         }
     }
 
-    public async getCountriesSummary(): Promise<Map<string,Summary>> {
-
-        const urlConfirmed = `${this.baseUrl}/confirmed`;
-        const urlRecovered = `${this.baseUrl}/recovered`;
-
+    public async getCountriesSummary(): Promise<Array<CountrySummary>> {
+        
+        const url = `${this.baseUrl}/countries`;
+        
         try {
-            const responseConfirmed: AxiosResponse = await axios.get(urlConfirmed);
-            const responseRecovered: AxiosResponse = await axios.get(urlRecovered);
-
-            // fetch summary of all countries (some of the by state).
-            const result1 = this.formatCountriesSummaryData(responseConfirmed.data);
-            return result1;
-            // recovered people data in some countries is wrong. I have to fetch from recovered endpoint in order to solve it.
-/*             const result = this.fixCountriesSummaryRecoveredData(result1, responseRecovered.data);
-            return result;
- */
-        } catch (error) {
-            throw new Error ('An error occurred while get summary by country')
-        }
-    }
-
-/*     private async getCountrySummary(countryCode: string): Promise<Summary> {
-
-        const url = `${this.baseUrl}/countries/${countryCode}`;
-        try {
-            const response: AxiosResponse = await axios.get(url)
-            return this.formatReportData(response);
-        } catch (error) {
-            throw new Error("get countries report error")
-        }
-    } */
-
-
-
-
-
-/*     public async summary(countryCode?: string): Promise<Summary> {
-
-        if (!countryCode) {
-            return await this.globalSummary();
-        }
-        return await this.getCountrySummary(countryCode);
-    } */
-
-
-
-    public async getDailyReport(): Promise<Array<DailyReportItem>> {
-
-        const url = '/daily';
-
-        try {
-            const response: AxiosResponse = await axios.get(`${this.baseUrl}${url}`);
-            const result: Array<DailyReportItem> = response.data.map( (dailyReportItem: any) => {
+            const axiosResponse = await axios.get(url);
+            const countriesSummarys = axiosResponse.data.map( (summary: any) => {
                 return {
-                    confirmed: dailyReportItem.totalConfirmed,
-                    recovered: dailyReportItem.recovered.total,
-                    deaths: dailyReportItem.deaths.total,
-                    dayConfirmed: dailyReportItem.deltaConfirmed,
-                    day: dailyReportItem.reportDate
+                    name: summary.country,
+                    confirmed: summary.cases,
+                    recovered: summary.recovered,
+                    deaths: summary.deaths,
+                    lastUpdate: this._formatDate(summary.updated),
+                    active: summary.active,
+                    iso2: summary.countryInfo.iso2,
+                    iso3: summary.countryInfo.iso3,
+                    flagImageUrl: summary.countryInfo.flag,
                 }
-            }).reverse();
-            return result
-
+            })
+            return countriesSummarys;
         } catch (error) {
-            throw new Error("get daily report error")
+            throw new Error("An error has occurred while fetching countries summary.");
         }
     }
 }
