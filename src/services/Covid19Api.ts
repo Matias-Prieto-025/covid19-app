@@ -43,6 +43,32 @@ class Covid19Api {
         return result;
     }
 
+    private fixCountriesSummaryRecoveredData(result: Map<string, Summary>, recoveredData: Array<CountriesSummary>): Map<string, Summary> {
+        //reduce data by country
+        let reducedArray = recoveredData.reduce((accumulator: Array<number>, current: any) => {
+            if (!accumulator[current.iso3]) {
+                accumulator[current.iso3] = current.recovered;
+                return accumulator;
+            }
+            accumulator[current.iso3] += current.recovered
+            return accumulator;
+        }, [])
+
+        console.log(reducedArray)
+
+        for (let key in reducedArray) {
+
+            let actualValue = result.get(key.toString());
+            if (actualValue) {
+                actualValue.recovered += reducedArray[key];
+                result.set(key.toString(), actualValue);
+            }
+
+        }
+
+        return result;
+    }
+
     public async globalSummary(): Promise<Summary> {
 
          try {
@@ -68,12 +94,20 @@ class Covid19Api {
 
     public async getCountriesSummary(): Promise<Map<string,Summary>> {
 
-        const url = `${this.baseUrl}/confirmed`;
+        const urlConfirmed = `${this.baseUrl}/confirmed`;
+        const urlRecovered = `${this.baseUrl}/recovered`;
 
         try {
-            const response: AxiosResponse = await axios.get(url);
-            const result = this.formatCountriesSummaryData(response.data);
+            const responseConfirmed: AxiosResponse = await axios.get(urlConfirmed);
+            const responseRecovered: AxiosResponse = await axios.get(urlRecovered);
+
+            // fetch summary of all countries (some of the by state).
+            const result1 = this.formatCountriesSummaryData(responseConfirmed.data);
+            return result1;
+            // recovered people data in some countries is wrong. I have to fetch from recovered endpoint in order to solve it.
+/*             const result = this.fixCountriesSummaryRecoveredData(result1, responseRecovered.data);
             return result;
+ */
         } catch (error) {
             throw new Error ('An error occurred while get summary by country')
         }
