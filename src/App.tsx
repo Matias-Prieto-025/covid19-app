@@ -2,7 +2,8 @@ import React, { useReducer, useEffect } from 'react';
 import { countriesReducer, initialCountriesState, StateCountries } from './state/countries/reducer';
 import { summaryReducer, initialSummaryState, StateSummary} from './state/summary/reducer';
 import { appReducer, initialAppState, ActionApp} from './state/app/reducer';
-import { Summary, Country } from './types';
+import { Summary, Country, CountrySummary } from './types';
+import covid19Api_old from './services/Covid19APi_old';
 import covid19Api from './services/Covid19Api';
 import { Container } from './layout-components';
 import LoadingScreen from './components/LoadingScreen/LoadingScreen'; 
@@ -18,14 +19,14 @@ export const SummaryContexState = React.createContext<StateSummary>(initialSumma
 interface ResponseInitialData {
   worldSummary: Summary,
   countries: Array<Country>,
-  countriesSummary: Map<string, Summary>
+  countriesSummary: Array<CountrySummary>
 }
 
 const loadInitialData = async (): Promise<ResponseInitialData> => {
   
    try {
-    const worldSummary = await covid19Api.globalSummary();
-    const countries = await covid19Api.getCountries();
+    const worldSummary = await covid19Api.getGlobalSummary();
+    const countries = await covid19Api_old.getCountries();
     const countriesSummary = await covid19Api.getCountriesSummary();
     return { worldSummary, countries, countriesSummary };
      

@@ -1,6 +1,6 @@
 import React, { useState , useEffect } from 'react';
 import { DailyReportItem } from '../../types';
-import Covid19Api from '../../services/Covid19Api';
+import Covid19Api from '../../services/Covid19APi_old';
 import './dailyReport.css';
 
 const DailyReport: React.FC = () => {

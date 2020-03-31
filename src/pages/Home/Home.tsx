@@ -46,7 +46,7 @@ const Home: React.FC = () => {
       tooltipContent = `Country: ${mapValues.name} <br /> Population: ${mapValues.population.toLocaleString()}`;
 
       const { countriesSummaries } = countriesContextState;
-      const selectedCountrySummary = countriesSummaries.get(mapValues.iso3) || initialDisplaySummary;
+      const selectedCountrySummary = countriesSummaries.find( countrySummary => countrySummary.iso3 === mapValues.iso3) || initialDisplaySummary;
 
       const newSummary: Summary = {
         confirmed: selectedCountrySummary.confirmed,

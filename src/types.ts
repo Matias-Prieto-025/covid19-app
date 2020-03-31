@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 export interface AppState {
     isLoading: boolean,
     hasError: boolean,
@@ -10,18 +8,21 @@ export interface Summary {
     confirmed: number,
     recovered: number,
     deaths: number,
-    lastUpdate?: moment.Moment
+    lastUpdate?: string
 }
 
-export interface CountriesSummary extends Summary {
-    iso3: string,
+export interface CountrySummary extends Summary {
     active: number
+    name: string,
+    iso2: string
+    iso3: string,
+    flagImageUrl?: string
 }
 
 export interface Country {
     name: string,
     iso2: string,
-    iso3: string
+    iso3: string,
 }
 
 export interface CountryReportItem extends Summary {
