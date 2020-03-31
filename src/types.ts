@@ -11,18 +11,15 @@ export interface Summary {
     lastUpdate?: string
 }
 
-export interface CountrySummary extends Summary {
+export interface CountrySummary extends Summary, Country {
     active: number
-    name: string,
-    iso2: string
-    iso3: string,
-    flagImageUrl?: string
 }
 
 export interface Country {
     name: string,
     iso2: string,
     iso3: string,
+    flagImageUrl?: string
 }
 
 export interface CountryReportItem extends Summary {
