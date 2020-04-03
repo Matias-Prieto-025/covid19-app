@@ -14,11 +14,9 @@ const initialZoom = 130;
 const MapChart: React.FC<any>= ({ setTooltipContent }) => {
 
     const [zoom, setZoom] = useState<number>(initialZoom);
-
     return (
-        <div>
-  
-            <ComposableMap height={330} projectionConfig={{ scale: zoom }} >
+        <>
+            <ComposableMap data-tip="" height={330} projectionConfig={{ scale: zoom }} >
                 <Sphere stroke="#E4E5E6" strokeWidth={0.5} id="rsm-sphere" fill="transparent"/>
                 <Graticule stroke="#E4E5E6" strokeWidth={0.5} />
                 <ZoomableGroup>
@@ -71,7 +69,7 @@ const MapChart: React.FC<any>= ({ setTooltipContent }) => {
                     <img src="./reset.png" alt="Out" height="10"/>
                 </button>
             </div>
-        </div>
+        </>
     );
 }
 
