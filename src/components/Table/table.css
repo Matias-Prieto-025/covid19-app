@@ -1,0 +1,21 @@
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table > thead > tr {
+    height: 40px;
+}
+
+.table > thead > tr {
+    border-bottom: 3px solid #848D97;
+}
+
+.table > tbody > tr {
+    height: 35px;
+}
+
+.table > tbody > tr > td {
+    text-align: center;
+    border-top: 1px solid #ddd;
+}
