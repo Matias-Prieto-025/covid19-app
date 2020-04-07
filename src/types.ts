@@ -31,6 +31,6 @@ export interface CountryReportItem extends Summary {
 }
 
 export interface DailyReportItem extends Summary{
-    dayConfirmed: number
     day: string
+    dayConfirmed?: number
 }

@@ -1,4 +1,5 @@
 import React, { useReducer, useEffect } from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { countriesReducer, initialCountriesState, StateCountries } from './state/countries/reducer';
 import { summaryReducer, initialSummaryState, StateSummary} from './state/summary/reducer';
 import { appReducer, initialAppState, ActionApp} from './state/app/reducer';
@@ -8,8 +9,9 @@ import { generateCountriesArray } from './utils/generateCountriesArray';
 import { Container } from './layout-components';
 import LoadingScreen from './components/LoadingScreen/LoadingScreen'; 
 import Header from './components/Header/Header';
-import Home from './pages/Home/Home';
 import Footer from './components/Footer/Footer';
+import Home from './pages/Home/Home';
+import Historical from './pages/Historical/Historical';
 
 //export const AppContextState = React.createContext<StateApp>(initialAppState);
 export const AppContextDispatch = React.createContext<React.Dispatch<ActionApp>>(() => initialAppState);
@@ -62,20 +64,25 @@ function App() {
     <div className="App">
 
       { appState.isLoading && <LoadingScreen />} 
-      
+      <BrowserRouter>
         <AppContextDispatch.Provider value={appDispatch}>
           <SummaryContexState.Provider value={summaryState}>
               <CountriesContextState.Provider value={countriesState}>
 
                 <Header />
                 <Container>
-                  <Home />
+                  <Switch>
+                    <Route path="/historical" component={Historical} />
+                    <Route path="/" exact component={Home} />
+                    <Route component={() => <div>Page not found</div>} />
+                  </Switch>
                 </Container>
                 <Footer />
 
               </CountriesContextState.Provider>
           </SummaryContexState.Provider>
         </AppContextDispatch.Provider>
+      </BrowserRouter>
 
     </div>
   );
