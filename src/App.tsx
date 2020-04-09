@@ -8,7 +8,7 @@ import covid19Api from './services/Covid19Api';
 import { generateCountriesArray } from './utils/generateCountriesArray';
 import { Container } from './layout-components';
 import LoadingScreen from './components/LoadingScreen/LoadingScreen'; 
-import Header from './components/Header/Header';
+import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import Home from './pages/Home/Home';
 import Historical from './pages/Historical/Historical';
@@ -62,18 +62,18 @@ function App() {
 
   return (
     <div className="App">
-
       { appState.isLoading && <LoadingScreen />} 
       <BrowserRouter>
+      <Navbar />
+      <main className="main-container">
         <AppContextDispatch.Provider value={appDispatch}>
           <SummaryContexState.Provider value={summaryState}>
               <CountriesContextState.Provider value={countriesState}>
 
-                <Header />
                 <Container>
                   <Switch>
                     <Route path="/historical" component={Historical} />
-                    <Route path="/" exact component={Home} />
+                    <Route path="/" component={Home} />
                     <Route component={() => <div>Page not found</div>} />
                   </Switch>
                 </Container>
@@ -82,8 +82,8 @@ function App() {
               </CountriesContextState.Provider>
           </SummaryContexState.Provider>
         </AppContextDispatch.Provider>
+      </main>
       </BrowserRouter>
-
     </div>
   );
 }

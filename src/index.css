@@ -6,6 +6,10 @@ body {
   margin: 0;
 }
 
+main {
+  margin-left: 4rem;
+}
+
 h1 {
   font-weight: normal;
   font-size: 2rem;

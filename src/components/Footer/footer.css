@@ -13,7 +13,7 @@
 
 @media only screen and (max-width: 600px) { 
     .footer {
-
+        display: none;
         bottom: 0;
         position: absolute;
         width: 100vw;

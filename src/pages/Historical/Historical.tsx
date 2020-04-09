@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { DailyReportItem } from '../../types';
 import covid19Api from '../../services/Covid19Api';
 import { AppContextDispatch } from '../../App';
+import PageTitle from '../../components/PageTitle/PageTitle';
 import Table from '../../components/Table/Table';
 
 const Historical: React.FC = () => {
@@ -29,6 +30,7 @@ const Historical: React.FC = () => {
   return(
       
       <div>
+          <PageTitle title="Historical data" />
           { historicalData && <Table 
                                 columns={columns} 
                                 data={historicalData} />

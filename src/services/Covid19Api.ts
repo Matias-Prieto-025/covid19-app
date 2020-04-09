@@ -59,7 +59,7 @@ class Covid19Api {
 
     public async getHistoricalData(): Promise<Array<DailyReportItem>> {
 
-        const url = `${this.baseUrl}/v2/historical/all`;
+        const url = `${this.baseUrl}/v2/historical/all?lastdays=all`;
         try {
             const axiosResponse = await axios.get(url);
             let { cases, deaths, recovered } = axiosResponse.data;
