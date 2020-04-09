@@ -7,6 +7,8 @@
     margin: auto;
 }
 
-@media only screen and (max-width: 600px) { 
-    
+@media only screen and (max-width: 600px) {
+    .flex-container {
+        padding-bottom: 4rem;
+    }
 }

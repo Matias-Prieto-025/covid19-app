@@ -1,0 +1,122 @@
+@import '../../colors.css';
+.navbar {
+    position: fixed;
+    background-color: var(--black-100);
+    transition: width var(--transition-speed) ease;
+}
+
+.navbar-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+.logo {
+    text-align: center;
+    color: var(--blue);
+    background-color: var(--black-300);
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    width: 100%;
+    letter-spacing: 0.3ch;
+    margin: 0 1rem;
+}
+
+.logo > .nav-link {
+    justify-content: center;
+}
+
+.logo svg {
+    transform: rotate(0deg);
+    transition: transform var(--transition-speed);
+    color: var(--blue)  !important;
+}
+
+.navbar:hover .logo svg {
+    color: var(--blue);
+    transform: rotate(-180deg);
+    transition: transform var(--transition-speed-2);
+}
+
+.navbar-item {
+    width: 100%;
+}
+
+.nav-link {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    height: 4rem;
+    color: var(--black-600);
+    text-decoration: none;
+}
+
+.navbar-item .nav-link {
+    filter: grayscale(100%) opacity(0.7);
+    transition: var(--transition-speed);
+}
+
+.nav-link-active {
+    filter: grayscale(0%) !important;
+}
+
+.nav-link-active svg {
+    color: var(--orange) !important;
+}
+
+.nav-link svg{
+    min-width: 1.4rem;
+    margin: 0 0.8rem;
+    color: var(--black-300);
+}
+
+.nav-link-text {
+    display: none;
+}
+
+.nav-link:hover {
+    color: var(--black-800);
+    filter: grayscale(0%);
+}
+
+@media only screen and (min-width: 600px) {
+    .navbar {
+        width: 3rem;
+        height: 100vh;
+    }
+    .navbar:hover {
+        width: 12rem;
+    }
+    .navbar:hover .nav-link-text {
+        display: block;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    main {
+        margin: 0;
+    }
+    .navbar {
+        bottom: 0;
+        width: 100vw;
+        height: 4rem;
+    }
+
+    .logo {
+        display: none;
+    }
+
+    .navbar-nav {
+        flex-direction: row;
+        align-content: space-around;
+    }
+    
+    .nav-link {
+        justify-content: space-around;
+    }
+}

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import moment from 'moment';
-import { CountrySummary, Summary } from '../types';
+import { CountrySummary, Summary, DailyReportItem } from '../types';
 
 class Covid19Api {
 
@@ -54,6 +54,27 @@ class Covid19Api {
             return countriesSummarys;
         } catch (error) {
             throw new Error("An error has occurred while fetching countries summary.");
+        }
+    }
+
+    public async getHistoricalData(): Promise<Array<DailyReportItem>> {
+
+        const url = `${this.baseUrl}/v2/historical/all?lastdays=all`;
+        try {
+            const axiosResponse = await axios.get(url);
+            let { cases, deaths, recovered } = axiosResponse.data;
+            // Object.keys(cases) give me an array with days (ascending)
+            return Object.keys(cases).reverse().map( date => {
+                return{
+                    day: date,
+                    confirmed: cases[date],
+                    recovered: recovered[date],
+                    deaths: deaths[date]
+                }
+            });
+
+        } catch (error) {
+            throw new Error("An error has occurred while fetching historical data."); 
         }
     }
 }
