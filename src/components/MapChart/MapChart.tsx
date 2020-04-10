@@ -1,4 +1,6 @@
 import React, { useState, memo } from 'react';
+import { Button } from 'antd';
+import { UndoOutlined, ZoomInOutlined, ZoomOutOutlined } from '@ant-design/icons'
 import { ZoomableGroup, ComposableMap, Geographies, Geography, Sphere, Graticule } from "react-simple-maps";
 import './mapChart.css';
 
@@ -59,15 +61,9 @@ const MapChart: React.FC<any>= ({ setTooltipContent }) => {
                 </ZoomableGroup>
             </ComposableMap>
             <div className="controls">
-                <button className="btn" onClick={() => setZoom(zoom+20)}>
-                    <img src="./zoom-in.png" alt="In" height="12"/>
-                </button>
-                <button className="btn" onClick={() => setZoom(zoom-20)}>
-                    <img src="./zoom-out.png" alt="Out" height="10"/>
-                </button>
-                <button className="btn" onClick={() => setZoom(initialZoom)}>
-                    <img src="./reset.png" alt="Out" height="10"/>
-                </button>
+                <Button icon={<ZoomInOutlined />} size="small" onClick={() => setZoom(zoom+30)} />
+                <Button icon={<ZoomOutOutlined />} size="small" onClick={() => setZoom(zoom-30)} />
+                <Button icon={<UndoOutlined />} size="small" onClick={() => setZoom(initialZoom)} />
             </div>
         </>
     );

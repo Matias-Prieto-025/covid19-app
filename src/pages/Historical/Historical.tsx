@@ -3,15 +3,15 @@ import { DailyReportItem } from '../../types';
 import covid19Api from '../../services/Covid19Api';
 import { AppContextDispatch } from '../../App';
 import PageTitle from '../../components/PageTitle/PageTitle';
-import Table from '../../components/Table/Table';
+import { Table } from 'antd';
 
 const Historical: React.FC = () => {
 
   const columns = [
-    {title: 'Day', accessor: 'day'}, 
-    {title: 'Confirmed', accessor: 'confirmed'}, 
-    {title: 'Recovered', accessor: 'recovered'}, 
-    {title: 'Deaths', accessor: 'deaths'}
+    {title: 'Day', dataIndex: 'day', key: 'day'}, 
+    {title: 'Confirmed', dataIndex: 'confirmed', key: 'confirmed'}, 
+    {title: 'Recovered', dataIndex: 'recovered', key: 'recovered'}, 
+    {title: 'Deaths', dataIndex: 'deaths', key: 'deaths'}
   ];
 
   const [historicalData, setHistoricalData] = useState<Array<DailyReportItem>>([]);
@@ -19,8 +19,12 @@ const Historical: React.FC = () => {
 
   useEffect(() => {
       covid19Api.getHistoricalData()
-          .then(response => setHistoricalData(response))
-          .catch(error => appContextDispatch({ type: 'SET_ERROR', error}));
+          .then(response => {
+            setHistoricalData(response.map(item => { 
+              return {...item, key: item.day}
+            }));
+          })
+          .catch(error => appContextDispatch({ type: 'SET_ERROR', error}));  
   }, [appContextDispatch]);
 
   if (!historicalData) {
@@ -28,13 +32,13 @@ const Historical: React.FC = () => {
   }
 
   return(
-      
       <div>
           <PageTitle title="Historical data" />
-          { historicalData && <Table 
-                                columns={columns} 
-                                data={historicalData} />
-          }
+          <Table 
+            columns={columns} 
+            dataSource={historicalData}
+            size="small"
+            pagination={{defaultPageSize: 20}} />
       </div>
   )
 }

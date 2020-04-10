@@ -64,7 +64,7 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <h4 className="title">{selectedCountry}</h4>
+      <h3 className="title">{selectedCountry}</h3>
       <Row className="mobile-column">
         <CardData 
           value={confirmed} 
