@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { Row, Col } from 'antd';
 import ReactTooltip from "react-tooltip";
 import { Summary } from '../../types';
-import { Row } from '../../layout-components';
-import CardData from '../../components/CardData/CardData'; 
-import MapChart, { HoverMapValue } from '../../components/MapChart/MapChart';
+import Card from '../../components/Card/Card'; 
+import Map, { HoverMapValue } from '../../components/Map/Map';
 import { CountriesContextState, SummaryContexState } from '../../App';
 import './home.css';
 
@@ -65,25 +65,19 @@ const Home: React.FC = () => {
   return (
     <>
       <h3 className="title">{selectedCountry}</h3>
-      <Row className="mobile-column">
-        <CardData 
-          value={confirmed} 
-          title={'Confirmed'}
-          className="background-yellow"/>
-        <CardData 
-          value={recovered} 
-          title={'Recovered'} 
-          rate={calculateRate(confirmed, recovered)}
-          className="background-green"/>
-        <CardData 
-          value={deaths} 
-          title={'Deaths'} 
-          rate={calculateRate(confirmed, deaths)}
-          className="background-red"/>
+      <Row justify="center">
+        <Col span={6} xs={24}>
+          <Card value={confirmed} title={'Confirmed'} className="background-yellow"/>
+        </Col>
+        <Col span={6} xs={24}>
+          <Card value={recovered} title={'Recovered'} rate={calculateRate(confirmed, recovered)} className="background-green"/>
+        </Col> 
+        <Col span={6} xs={24}> 
+          <Card  value={deaths} title={'Deaths'} rate={calculateRate(confirmed, deaths)} className="background-red"/>
+        </Col>
       </Row>
-     
       <div id="map-container">
-        <MapChart setTooltipContent={handleMapMouseOver} />
+        <Map setTooltipContent={handleMapMouseOver} />
         <ReactTooltip multiline={true} html={true}>{tooltipState}</ReactTooltip>
       </div>
     </>

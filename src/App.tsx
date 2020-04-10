@@ -7,10 +7,8 @@ import { appReducer, initialAppState, ActionApp} from './state/app/reducer';
 import { Summary, Country, CountrySummary } from './types';
 import covid19Api from './services/Covid19Api';
 import { generateCountriesArray } from './utils/generateCountriesArray';
-import { Container } from './layout-components';
-import LoadingScreen from './components/LoadingScreen/LoadingScreen'; 
-import Navbar from './components/Navbar/Navbar';
-import Footer from './components/Footer/Footer';
+import LoadingScreen from './pages/Loading/LoadingScreen'; 
+import Navbar from './layout/Navbar/Navbar';
 import Home from './pages/Home/Home';
 import Historical from './pages/Historical/Historical';
 
@@ -71,14 +69,11 @@ function App() {
           <SummaryContexState.Provider value={summaryState}>
               <CountriesContextState.Provider value={countriesState}>
 
-                <Container>
                   <Switch>
                     <Route path="/historical" component={Historical} />
                     <Route path="/" component={Home} />
                     <Route component={() => <div>Page not found</div>} />
                   </Switch>
-                </Container>
-                <Footer />
 
               </CountriesContextState.Provider>
           </SummaryContexState.Provider>
