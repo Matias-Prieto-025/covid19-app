@@ -1,5 +1,6 @@
 @import '../../colors.css';
 .navbar {
+    z-index: 100;
     position: fixed;
     background-color: var(--black-100);
     transition: width var(--transition-speed) ease;
@@ -32,6 +33,7 @@
 }
 
 .logo svg {
+    font-size: 1.5rem;
     transform: rotate(0deg);
     transition: transform var(--transition-speed);
     color: var(--blue)  !important;
@@ -70,6 +72,7 @@
 }
 
 .nav-link svg{
+    font-size: 1.5rem;
     min-width: 1.4rem;
     margin: 0 0.8rem;
     color: var(--black-300);

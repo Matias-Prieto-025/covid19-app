@@ -1,5 +1,6 @@
 import React, { useReducer, useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import 'antd/dist/antd.css';
 import { countriesReducer, initialCountriesState, StateCountries } from './state/countries/reducer';
 import { summaryReducer, initialSummaryState, StateSummary} from './state/summary/reducer';
 import { appReducer, initialAppState, ActionApp} from './state/app/reducer';
