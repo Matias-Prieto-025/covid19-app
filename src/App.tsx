@@ -7,10 +7,8 @@ import { appReducer, initialAppState, ActionApp} from './state/app/reducer';
 import { Summary, Country, CountrySummary } from './types';
 import covid19Api from './services/Covid19Api';
 import { generateCountriesArray } from './utils/generateCountriesArray';
-import { Container } from './layout-components';
-import LoadingScreen from './components/LoadingScreen/LoadingScreen'; 
-import Navbar from './components/Navbar/Navbar';
-import Footer from './components/Footer/Footer';
+import LoadingScreen from './components/Loading/LoadingScreen'; 
+import Layout from './layout/Layout';
 import Home from './pages/Home/Home';
 import Historical from './pages/Historical/Historical';
 
@@ -65,25 +63,19 @@ function App() {
     <div className="App">
       { appState.isLoading && <LoadingScreen />} 
       <BrowserRouter>
-      <Navbar />
-      <main className="main-container">
         <AppContextDispatch.Provider value={appDispatch}>
           <SummaryContexState.Provider value={summaryState}>
               <CountriesContextState.Provider value={countriesState}>
-
-                <Container>
+                <Layout>
                   <Switch>
                     <Route path="/historical" component={Historical} />
                     <Route path="/" component={Home} />
                     <Route component={() => <div>Page not found</div>} />
                   </Switch>
-                </Container>
-                <Footer />
-
+                </Layout>
               </CountriesContextState.Provider>
           </SummaryContexState.Provider>
         </AppContextDispatch.Provider>
-      </main>
       </BrowserRouter>
     </div>
   );

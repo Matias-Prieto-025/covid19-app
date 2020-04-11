@@ -2,7 +2,7 @@ import React, { useState, memo } from 'react';
 import { Button } from 'antd';
 import { UndoOutlined, ZoomInOutlined, ZoomOutOutlined } from '@ant-design/icons'
 import { ZoomableGroup, ComposableMap, Geographies, Geography, Sphere, Graticule } from "react-simple-maps";
-import './mapChart.css';
+import './map.css';
 
 export interface HoverMapValue {
     iso3: string,

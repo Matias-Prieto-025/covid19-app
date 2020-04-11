@@ -29,6 +29,7 @@
         margin: 5px;
         flex-basis: 10%;
         padding: 10px;
+        height: 35px;
         flex-direction: row-reverse;
         justify-content: space-between;
         align-items: center;

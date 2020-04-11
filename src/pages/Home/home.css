@@ -2,9 +2,6 @@
     margin: 0rem 1rem;
 }
 
-#map-container {
-    margin-top: 1rem;
-    display: block;
-    width: 100%;
-    flex: 1;
+.map-container {
+    margin-top: 2rem;
 }
