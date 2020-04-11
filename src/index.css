@@ -35,34 +35,6 @@ h5 {
   font-size: 0.8rem;
 }
 
-.btn {
-  padding: 5px 15px;
-  margin: 0px 5px;
-  background: #eee;
-  border: 1px solid #ddd;
-}
-
-.btn:hover {
-  background-color: #ccc;
-}
-
-.flex {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.flex-direction-column {
-  flex-direction: column;
-}
-
-.flex-center-content {
-  justify-content: center;
-}
-
-.flex-space-around {
-  justify-content: space-around;
-}
-
 /* Backgrounds */
 .background-yellow {
   background-color: var(--yellow) !important;
@@ -74,10 +46,4 @@ h5 {
 
 .background-red {
   background-color: var(--red) !important;
-}
-
-@media only screen and (max-width: 600px) { 
-  .mobile-column {
-    flex-direction: column;
-  }
 }

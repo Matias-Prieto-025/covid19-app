@@ -64,22 +64,28 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <h3 className="title">{selectedCountry}</h3>
-      <Row justify="center">
-        <Col span={6} xs={24}>
+      <Row className="row-title" gutter={[16, 16]}> 
+        <Col span={24}>
+          <h3 className="title">{selectedCountry}</h3>
+        </Col>
+      </Row>
+      <Row justify="center" gutter={{xs: 8, md: 16}}>
+        <Col md={8} xs={24}>
           <Card value={confirmed} title={'Confirmed'} className="background-yellow"/>
         </Col>
-        <Col span={6} xs={24}>
+        <Col md={8} xs={24}>
           <Card value={recovered} title={'Recovered'} rate={calculateRate(confirmed, recovered)} className="background-green"/>
         </Col> 
-        <Col span={6} xs={24}> 
+        <Col md={8} xs={24}> 
           <Card  value={deaths} title={'Deaths'} rate={calculateRate(confirmed, deaths)} className="background-red"/>
         </Col>
       </Row>
-      <div id="map-container">
-        <Map setTooltipContent={handleMapMouseOver} />
-        <ReactTooltip multiline={true} html={true}>{tooltipState}</ReactTooltip>
-      </div>
+      <Row className="map-container">
+        <Col span={24}>
+          <Map setTooltipContent={handleMapMouseOver} />
+          <ReactTooltip multiline={true} html={true}>{tooltipState}</ReactTooltip>
+        </Col>
+      </Row>
     </>
   );
 } 
