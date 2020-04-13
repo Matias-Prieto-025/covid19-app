@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDomServer from 'react-dom/server'
 import { Map, TileLayer, GeoJSON } from 'react-leaflet';
 import geojsonContries from './geojson.json'
+import population from './population';
 import './mapLeaflet.css';
 
 // TODO: define types and replace all "any" type in code 
@@ -15,7 +16,6 @@ interface MapLeafletProps {
     handleClick: (mapValues: HoverMapValue | undefined) => void
 }
 
-
 const geoJsonData: any = geojsonContries;
 const geoJSONStyle = () => {
     return {
@@ -26,10 +26,13 @@ const geoJSONStyle = () => {
     }
 }
 
+const position: [number, number] = [0, 0];
+const zoom = 2;
+
 const MapLeaflet: React.FC<MapLeafletProps> = ({ handleClick }) => {
 
     const onEachFeature = (feature: any, layer: any) =>{
-        const popupContent = <div onClick={(event: any) => console.log(event)}><pre>Country: <br />{feature.properties.name}</pre></div>
+        const popupContent = <div><pre>Country: {feature.properties.name} <br />Populaiton: {population.get(feature.properties.id)?.toLocaleString()}</pre></div>
         const popupContentString = ReactDomServer.renderToString(popupContent);
         layer.bindPopup(popupContentString)
         layer.on('click', (e: any) => {
@@ -45,9 +48,6 @@ const MapLeaflet: React.FC<MapLeafletProps> = ({ handleClick }) => {
         });
     }
     
-    const position: [number, number] = [0, 0];
-    const zoom = 2;
-
     return <div className="leaflet-map-container">
         <Map className="leaflet-map" center={position} zoom={zoom}>
             <TileLayer
