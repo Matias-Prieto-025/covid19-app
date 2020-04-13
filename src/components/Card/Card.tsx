@@ -13,7 +13,7 @@ const CardData: React.FC<CardDataProps> = ({ value, title, className = null, rat
     <div className={`card ${className ? className : ''}`}>
         <Row>
             <Col span={24}>
-                <span className="card-value">{value.toLocaleString()}</span>
+                <span className="card-value">{(value === null || value === undefined) ?  'No data' : value.toLocaleString()}</span>
             </Col>
         </Row>
         <Row>
