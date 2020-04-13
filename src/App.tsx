@@ -58,25 +58,26 @@ function App() {
       .finally(() => appDispatch({ type: 'SET_LOADING', isLoading: false}));
 
   }, []);
-
   return (
     <div className="App">
-      { appState.isLoading && <LoadingScreen />} 
-      <BrowserRouter>
-        <AppContextDispatch.Provider value={appDispatch}>
-          <SummaryContexState.Provider value={summaryState}>
-              <CountriesContextState.Provider value={countriesState}>
-                <Layout>
-                  <Switch>
-                    <Route path="/historical" component={Historical} />
-                    <Route path="/" component={Home} />
-                    <Route component={() => <div>Page not found</div>} />
-                  </Switch>
-                </Layout>
-              </CountriesContextState.Provider>
-          </SummaryContexState.Provider>
-        </AppContextDispatch.Provider>
-      </BrowserRouter>
+      { appState.isLoading 
+        ?<LoadingScreen />
+        : <BrowserRouter>
+          <Layout>
+            <AppContextDispatch.Provider value={appDispatch}>
+              <SummaryContexState.Provider value={summaryState}>
+                  <CountriesContextState.Provider value={countriesState}>
+                    <Switch>
+                      <Route path="/historical" component={Historical} />
+                      <Route path="/" component={Home} />
+                      <Route component={() => <div>Page not found</div>} />
+                    </Switch>
+                  </CountriesContextState.Provider>
+              </SummaryContexState.Provider>
+            </AppContextDispatch.Provider>
+          </Layout>
+        </BrowserRouter>
+      }
     </div>
   );
 }
