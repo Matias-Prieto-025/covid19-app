@@ -32,7 +32,7 @@ const zoom = 2;
 const MapLeaflet: React.FC<MapLeafletProps> = ({ handleClick }) => {
 
     const onEachFeature = (feature: any, layer: any) =>{
-        const popupContent = <div><pre>Country: {feature.properties.name} <br />Populaiton: {population.get(feature.properties.id)?.toLocaleString()}</pre></div>
+        const popupContent = <div><pre>Country: {feature.properties.name} <br />Population: {population.get(feature.properties.id)?.toLocaleString()}</pre></div>
         const popupContentString = ReactDomServer.renderToString(popupContent);
         layer.bindPopup(popupContentString)
         layer.on('click', (e: any) => {
