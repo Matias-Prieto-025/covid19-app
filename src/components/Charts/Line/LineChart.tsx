@@ -34,7 +34,7 @@ const LineChartComponent: React.FC<LineChartProps> = ({
 }) => {
     return(
         <ResponsiveContainer width={containerWidth} height={containerHeight}>
-            <LineChart data={data}>
+            <LineChart data={data} margin={{ bottom: 40}}>
                 <CartesianGrid strokeDasharray="1 1" />
                 <XAxis dataKey={xAxisKey}  angle={-80} textAnchor="end"/>
                 <YAxis angle={-45} />
