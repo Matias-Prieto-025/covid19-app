@@ -11,6 +11,7 @@ import LoadingScreen from './components/Loading/LoadingScreen';
 import Layout from './layout/Layout';
 import Home from './pages/Home/Home';
 import Historical from './pages/Historical/Historical';
+import Compare from './pages/Compare/Compare';
 
 //export const AppContextState = React.createContext<StateApp>(initialAppState);
 export const AppContextDispatch = React.createContext<React.Dispatch<ActionApp>>(() => initialAppState);
@@ -68,6 +69,7 @@ function App() {
               <SummaryContexState.Provider value={summaryState}>
                   <CountriesContextState.Provider value={countriesState}>
                     <Switch>
+                      <Route path="/compare" component={Compare} />
                       <Route path="/historical" component={Historical} />
                       <Route path="/" component={Home} />
                       <Route component={() => <div>Page not found</div>} />

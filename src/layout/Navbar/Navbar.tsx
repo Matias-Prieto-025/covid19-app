@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { DoubleRightOutlined, GlobalOutlined, LineChartOutlined } from '@ant-design/icons';
+import { DoubleRightOutlined, GlobalOutlined, LineChartOutlined, PieChartOutlined } from '@ant-design/icons';
 import './navbar.css';
 
 const Navbar = () => {
@@ -24,6 +24,12 @@ const Navbar = () => {
           <NavLink exact to="/historical" activeClassName="nav-link-active" className="nav-link">
           <LineChartOutlined />
             <span className="nav-link-text">Historical</span>
+          </NavLink>
+        </li>
+        <li className="navbar-item">
+          <NavLink exact to="/compare" activeClassName="nav-link-active" className="nav-link">
+          <PieChartOutlined /> 
+            <span className="nav-link-text">Compare</span>
           </NavLink>
         </li>
       </ul>
