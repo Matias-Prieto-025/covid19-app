@@ -16,7 +16,7 @@ class Covid19Api {
 
     public async getGlobalSummary(): Promise<Summary> {
 
-        const url = `${this.baseUrl}/all`;
+        const url = `${this.baseUrl}/v2/all`;
         
         try {
             const axiosResponse = await axios.get(url);
@@ -34,7 +34,7 @@ class Covid19Api {
 
     public async getCountriesSummary(): Promise<Array<CountrySummary>> {
         
-        const url = `${this.baseUrl}/countries`;
+        const url = `${this.baseUrl}/v2/countries`;
         
         try {
             const axiosResponse = await axios.get(url);
