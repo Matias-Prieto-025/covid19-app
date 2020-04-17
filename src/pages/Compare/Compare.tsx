@@ -5,6 +5,8 @@ import PageTitle from '../../components/PageTitle/PageTitle';
 import { Row, Col, Form, Select as AntSelect } from 'antd';
 import CompareTable from './CompareTable';
 
+// TODO: Refactor this component and CompareTable component
+
 const { Option } = AntSelect;
 
 const formInputsLayout = {
@@ -42,6 +44,7 @@ const Compare = () => {
     
     const [selectedOne, setSelectedOne] = useState<CountrySummary | undefined>(undefined);
     const [selectedTwo, setSelectedTwo] = useState<CountrySummary | undefined>(undefined);
+    const [selectedThree, setSelectedThree] = useState<CountrySummary | undefined>(undefined);
 
     const countriesContextState = useContext(CountriesContextState);
     const { countries, countriesSummaries } = countriesContextState;
@@ -54,6 +57,11 @@ const Compare = () => {
     const selectedTwoChange = (iso3: string) => {
         const countrySummary = findSummary(countriesSummaries, iso3)
         countrySummary &&  setSelectedTwo(countrySummary);
+    }
+
+    const selectedThreeChange = (iso3: string) => {
+        const countrySummary = findSummary(countriesSummaries, iso3)
+        countrySummary &&  setSelectedThree(countrySummary);
     }
 
     return(
@@ -76,12 +84,17 @@ const Compare = () => {
                             name="country-two">
                             <Select countries={countries} selectMethod={selectedTwoChange} />
                         </Form.Item>
+                        <Form.Item
+                            label="Country Three"
+                            name="country-three">
+                            <Select countries={countries} selectMethod={selectedThreeChange} />
+                        </Form.Item>
                     </Form>
                 </Col>
             </Row>
-            <Row gutter={[16, 16]}>
+            <Row style={{ marginTop: 30}}>
                 <Col span={24}>
-                    <CompareTable summaryOne={selectedOne} summaryTwo={selectedTwo} />
+                    <CompareTable summaryOne={selectedOne} summaryTwo={selectedTwo} summaryThree={selectedThree} />
                 </Col> 
             </Row>
         </div>
